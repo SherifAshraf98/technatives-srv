@@ -1,14 +1,14 @@
-import express, { Express, Request, Response } from 'express';
+import express, { Express } from 'express';
 import dotenv from 'dotenv';
+import { router as imagesRouter } from './src/routes/Image';
 dotenv.config();
 
 const app: Express = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 
-app.get('/', async (_req: Request, res: Response) => {
-  res.send('Hello World!');
-});
+app.use('/img', imagesRouter);
 
-app.listen(port ?? 3000, () => {
-  console.log(`Server is running at port ${port}`);
+
+app.listen(port, () => {
+	console.log(`Server is running at port ${port}`);
 });
