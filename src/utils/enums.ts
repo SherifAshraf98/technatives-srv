@@ -1,5 +1,5 @@
 export enum DatabaseTableNameEnum {
-	POSTS = 'posts',
+	IMAGES = 'images',
 }
 
 export enum SortOrderEnum {

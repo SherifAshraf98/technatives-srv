@@ -33,6 +33,8 @@ export const listImages = async (req: Request<{}, {}, {}, ListImagesQP>, res: Re
 		return res.send(response(images, page, pageSize, +imagesCount[0].count));
 	} catch (e) {
 		console.error(e);
+		const errorResponse = handleError(e);
+		res.status(errorResponse.error.statusCode);
 		res.send(handleError(e));
 	}
 };

@@ -1,8 +1,8 @@
 import { ResponseReturnType } from './types';
 
 export const handleError = (error: any, extra?: string) => {
-	if (!(error.statusCode || error.code) || (error.statusCode || error.code) > 400) console.error(error);
-	else console.log(error);
+	console.error(error);
+
 	const errorMap: Record<number, string> = {
 		204: 'No Content',
 		400: 'Bad Request',
@@ -21,15 +21,29 @@ export const handleError = (error: any, extra?: string) => {
 		? {
 				error: {
 					statusCode: error.statusCode || error.code,
-					data: extra ? { message: extra } : { message },
+					message: extra ? extra : message,
 				},
 		  }
 		: {
 				error: {
 					statusCode: 500,
-					data: extra ? { message: `Internal Server Error - ${extra}` } : { message: `Internal Server Error` },
+					message: extra ? `Internal Server Error - ${extra}` : `Internal Server Error`,
 				},
 		  };
+};
+
+export const throwBadRequest = (message?: string): never => {
+	throw {
+		statusCode: 400,
+		customMessage: message ?? 'Bad Request',
+	};
+};
+
+export const throwInternalServerError = (message?: string): never => {
+	throw {
+		statusCode: 500,
+		customMessage: message ?? 'Internal Server Error',
+	};
 };
 
 export const response = <T = Record<string, any>[] | Record<string, any>>(

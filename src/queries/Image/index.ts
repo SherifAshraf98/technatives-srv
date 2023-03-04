@@ -1,5 +1,6 @@
 import { Knex } from 'knex';
 import { GetImagesArgs, GetImagesCountOutput, GetImagesOutput } from '../../interfaces/Image/list-images';
+import { CreateImageArgs, CreateImageOutput } from '../../interfaces/Image/upload-image';
 import { DatabaseTableNameEnum, SortOrderEnum } from '../../utils/enums';
 
 /**
@@ -8,7 +9,7 @@ import { DatabaseTableNameEnum, SortOrderEnum } from '../../utils/enums';
  * @returns {Promise<GetImagesCountOutput[]>} List of images
  */
 export const getImagesCount = (knex: Knex<any, unknown[]>): Promise<GetImagesCountOutput[]> =>
-	knex(DatabaseTableNameEnum.POSTS).count() as any;
+	knex(DatabaseTableNameEnum.IMAGES).count() as any;
 
 /**
  * Function that gets images
@@ -20,8 +21,17 @@ export const getImages = (
 	knex: Knex<any, unknown[]>,
 	{ queryOffset, pageSize }: GetImagesArgs
 ): Promise<GetImagesOutput[]> =>
-	knex(DatabaseTableNameEnum.POSTS)
+	knex(DatabaseTableNameEnum.IMAGES)
 		.select('id', 'caption', 'image', 'createdAt')
 		.orderBy('createdAt', SortOrderEnum.DESC)
 		.offset(queryOffset)
 		.limit(pageSize);
+
+/**
+ * Function that creates a new image
+ * @param {Knex<any, unknown[]>} knex - Knex Instance
+ * @param {CreateImageArgs} args - Arguments (data)
+ * @returns {Promise<CreateImageOutput[]>} Created images
+ */
+export const createImage = (knex: Knex<any, unknown[]>, { data }: CreateImageArgs): Promise<CreateImageOutput[]> =>
+	knex(DatabaseTableNameEnum.IMAGES).insert(data).returning(['id', 'caption', 'image', 'createdAt']);

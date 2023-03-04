@@ -1,7 +1,10 @@
 import { Router } from 'express';
 import { listImages, uploadImages } from '../controllers/Image';
+import multer from 'multer';
+
+const upload = multer();
 
 export const router = Router();
 
-router.get('/upload', uploadImages);
+router.post('/upload', upload.any(), uploadImages);
 router.get('/list', listImages);
