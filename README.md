@@ -52,3 +52,6 @@ Fields:
 #### To Visit App Locally:
 `localhost:3000`  
 
+#### Next step:
+1. Configure a Docker container to allow developers easily clone the repo and start working with it in a minutes, instead of configuring a lot of things (database, s3 bucket, etc.) manually.
+
